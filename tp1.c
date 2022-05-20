@@ -70,3 +70,51 @@ void remove_Id(user *us,mailbox *entrada,int id){
 	ent_aux = ent_aux->prox;
 		}else printf("ID INEXISTENTE\n");
 	}
+
+void entrega_IDPriMsgFim(mailbox *ent,user *us,int id,FILE *txt){
+	int i = 0;
+	mailbox *busca = ent;
+	int pri;
+	char *email;
+
+	fscanf(txt, "%d",&pri);				//le a prioridade indicada no arquivo
+	fflush(txt);						//limpa o buffer
+	fgets(email,MAX_MSG,txt);			//le a mensagem no arquivo
+
+	if(id >= MAX_MAILBOX){
+		printf("ID %d INEXISTENTE\n",id);			//verifica se a id existe
+	}while(us[i].id<=id){
+		if(us[i].id == id){
+			while(busca->id != id){
+				busca = busca->prox;				//percorre a lsita
+			}
+			if(busca->id == id){
+				if(pri > 9){      					//verifica se a prioridade é valida
+					printf("PRIORIDADE %d INEXISTENTE, POR FAVOR INFORME VALORES DE 0 A 9\n",pri);
+					return;
+				}else{
+						//ordenar
+				}
+			}
+		}
+	}
+
+	}
+
+void consulta_Id(mailbox *entrada, int id,user *User){
+	mailbox *ent_aux = entrada;
+	while(ent_aux != NULL){							
+		if(ent_aux->id == id) break;				//busca a id fornecida na caixa de entrada
+		ent_aux = ent_aux->prox;
+	}
+	if(ent_aux->prox_email == NULL){
+		printf("CAIXA DE ENTRADA VAZIA\n");			//verifica se a caixa de entrada está vazia
+		return;
+	}else{
+		printf("%s\n",ent_aux->prox_email->Msg);						//imprime a mensagem e faz o ponteiro apontar pro proximo
+		mailbox *ent_aux2 = ent_aux->prox_email;
+		ent_aux->prox_email = ent_aux->prox_email->prox_email;
+		free(ent_aux);
+		return;
+	}
+}
