@@ -23,7 +23,6 @@ typedef struct user_t user;
 
 void cadastra_Id(user *user, mailbox *email, FILE *txt);
 void removeId(user *User,mailbox *mail, int id);
-void verifica_Id();
 void consulta_Id(mailbox *entrada, int id,user *conta);
 void ordena(mailbox *recebe,char *email,int id,int pri);
 void entrega_IDPriMsgFim(mailbox *ent,user *us,int id,FILE *txt);
