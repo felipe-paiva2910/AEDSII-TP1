@@ -83,15 +83,16 @@ void remove_Id(user *us,mailbox *entrada,int id){
 		}else printf("ID INEXISTENTE\n");
 	}
 
-void entrega_IDPriMsgFim(mailbox *ent,user *us,int id,FILE *txt){
+void entrega_IDPriMsgFim(mailbox *ent,int id,user *us,FILE *txt){
 	int i = 0;
 	mailbox *busca = ent;
 	int pri;
-	char *email;
+	char email[MAX_MSG];
 
 	fscanf(txt, "%d",&pri);				//le a pri indicada no arquivo
-	fflush(txt);						//limpa o buffer
-	fgets(email,MAX_MSG,txt);			//le a mensagem no arquivo
+	setbuf(txt, NULL);						//limpa o buffer
+	fscanf(txt,"%c%[^FIM]",&email[0],email);
+	setbuf(txt,NULL);			//le a mensagem no arquivo
 
 	if(id >= MAX_MAILBOX){
 		printf("ID %d INEXISTENTE\n",id);			//verifica se a id existe
@@ -102,7 +103,7 @@ void entrega_IDPriMsgFim(mailbox *ent,user *us,int id,FILE *txt){
 			}
 			if(busca->id == id){
 				if(pri > 9){      					//verifica se a pri é valida
-					printf("pri %d INEXISTENTE, POR FAVOR INFORME VALORES DE 0 A 9\n",pri);
+					printf("prioridade %d INEXISTENTE, POR FAVOR INFORME VALORES DE 0 A 9\n",pri);
 					return;
 				}else{								//ordena os emails pela prioridade
 					mailbox *pont_aux = ent;			
