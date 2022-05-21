@@ -20,10 +20,10 @@ struct user_t{      //lista dos usuarios
 typedef struct mailbox_t mailbox;
 typedef struct user_t user;
 
-
-void cadastra_Id(user *user, mailbox *email, FILE *txt);
-void removeId(user *User,mailbox *mail, int id);
-void consulta_Id(mailbox *entrada, int id,user *conta);
+void cria_luser_lmailbox();
+void cadastra_Id(user *User, mailbox *email, FILE *txt);
+void remove_Id(user *User,mailbox *mail, int id);
+void consulta_Id(mailbox *entrada, int id,user *User);
 void ordena(mailbox *recebe,char *email,int id,int pri);
 void entrega_IDPriMsgFim(mailbox *ent,user *us,int id,FILE *txt);
 
