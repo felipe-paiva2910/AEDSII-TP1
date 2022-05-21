@@ -1,25 +1,29 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include"tp1.h"
 
-void cria_lista_user_lista_mailbox(){
-	user *User = (user*)malloc(sizeof(user));    // Criação dinâmicamente da célula cabeça para a lista de User
+user* cria_lista_user(){
+	user *User = (user*)malloc(sizeof(user));    			// Criação dinâmicamente da célula cabeça para a lista de User
 	User->prox = NULL;
 	User->id = -MAX_MAILBOX;
+	return User;
+}
+mailbox* cria_lista_mailbox(){
 	mailbox *mail = (mailbox*)malloc(sizeof(mailbox));
 	mail->prox = NULL;
 	mail->prox_email = NULL;
+	return mail;
 }
 void cadastra_Id(user *us,mailbox *recebidos,FILE *txt){
-
 	user *User = us;
 	mailbox *entrada = recebidos;
 	int id_new;
-	fscanf(txt, "%d", &id_new);							//le o arquivo 
+	fscanf(txt, "%d", &id_new);								//le o arquivo 
 	if(id_new > MAX_MAILBOX){					
-		printf("ID %d INVALIDA\n",id_new);				//verifica se a id é maior que o total da caixa de entrada(que seria o limite de usuarios)
+		printf("ID %d INVALIDA\n",id_new);					//verifica se a id é maior que o total da caixa de entrada(que seria o limite de usuarios)
 	}
-		if(User->id == id_new){							//verifica se ja existe uma id igual à id lida
+		if(User->id == id_new){								//verifica se ja existe uma id igual à id lida
 			printf("ID %d JA CADASTRADA\n",id_new);
 			User = User->prox;
 		}
@@ -45,7 +49,7 @@ void remove_Id(user *us,mailbox *entrada,int id){
 	mailbox *ent_aux = entrada;			// e 2 ponteiros auxiliares pra limpar a caixa de entrada
 	mailbox *ent_ant = entrada;
 
-	if(us_aux->id != NULL){ 		//verifica se a id existe, se existir ele entra no if
+	if(us_aux != NULL){ 		//verifica se a id existe, se existir ele entra no if
 		if(us_aux->id == id){
 			us_aux2->prox = us_aux->prox; 			//depois de limpar a caixa de entrada, remove o usuario
 			free(us_aux);
@@ -157,43 +161,5 @@ void consulta_Id(mailbox *entrada, int id,user *User){
 		ent_aux->prox_email = ent_aux->prox_email->prox_email;
 		free(ent_aux);
 		return;
-	}
-}
-
-void OrdenaMsg(mailbox *mail, char *msg, int pri, int id){ // Função para fazer a alocação e ordenação dos emails nas caixas de mailbox
-    mailbox *pont_aux = mail;
-	mailbox *ant ;												// recebe como paramêtros um vetor de char contendo o conteúdo do email, pri e endereço
-	int aux = 0;
-	while(pont_aux != NULL){
-		if(pont_aux->id == id){
-			break;
-		}
-		pont_aux = pont_aux->prox;
-	}
-
-	ant = pont_aux;
-	while(pont_aux != NULL){
-		if(pont_aux->pri < pri && pont_aux != ant){
-			mailbox *novo = (mailbox*)malloc(sizeof(mailbox));
-			strcpy(novo->Msg, msg);
-			novo->pri = pri;
-			novo->id = id;
-			novo->prox_email = pont_aux;
-			ant->prox_email = novo;
-			aux = 1;
-			break;
-		}
-		ant = pont_aux;
-		pont_aux = pont_aux->prox_email;
-	}
-	if(ant->prox_email == NULL){
-		mailbox *novo = (mailbox*)malloc(sizeof(mailbox));
-		strcpy(novo->Msg, msg);
-		novo->pri = pri;
-		novo->id = id;
-		novo->prox_email = NULL;
-		novo->prox = NULL;
-		ant->prox_email = novo;
-		aux = 1;
 	}
 }
